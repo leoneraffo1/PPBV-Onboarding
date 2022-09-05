@@ -42,16 +42,14 @@ class HomeController extends Controller{
         $request->validate([
             'titulo' => 'required',
             'descricao' => 'required',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'anexo' => 'required|csv,txt,xlx,xls,pdf|max:2048'
         ]);
-        
-        
-        if($request->hasFile('image')){
-            $imageName = $id.'.'.$request->image->extension();  
-            $request->image->storeAs('public',$imageName);
-        }
-        
 
+        if($request->hasFile('local_arquivo')){
+            $file = $request->local_arquivo;
+            $doc->arquivo_title = $file->getClientOriginalName();
+            $doc->local_arquivo = $file->store('DocumentosEstagio');
+        }
         $card = ModelCard::where('id_card',$id)->first();
         $card->titulo = $request->titulo;
         $card->descricao = $request->descricao; 
