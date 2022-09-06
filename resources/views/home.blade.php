@@ -51,8 +51,21 @@
         @foreach($card as $cards)
         
             
-                <button class="max-w-smm rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg px-6 py-4" type="button" data-modal-toggle={{$cards -> id_card}}>
+                {{-- <button class="max-w-smm rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg px-6 py-4" type="button" data-modal-toggle={{$cards -> id_card}}>
                     <p class="font-bold text-xl mb-2">{{$cards->titulo}}</p> 
+                </button> --}}
+
+                <button class="max-w-sm inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg px-6 py-4" type="button" data-modal-toggle={{$cards -> id_card}}>
+                    <div class="max-w-sm">
+                        <a href="#" class="max-w-full">
+                            <img class="object-fill rounded-lg " src="images/cards/{{$cards->midia}}" alt="imagemCard" />
+                        </a>
+                        <div class="p-5">
+                            <a href="#">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>
+                            </a>                            
+                        </div>
+                    </div>
                 </button>
             
         
@@ -78,7 +91,6 @@
                                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                             </button>
                         </div>
-                    
                     
                       <!-- Modal body -->
                       <div class="p-6 space-y-6">
@@ -126,9 +138,6 @@
         
     </div>
     <div class="text-right mr-8">
-        {{-- <button type="button" data-modal-toggle="criarCard" class="text-white  bg-orange-600 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl  text-center inline-flex items-center mr-2 :bg-blue-600 :hover:bg-blue-700 mt-8 :focus:ring-blue-800">
-            <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-          </button> --}}
           {{-- modal criarCard --}}
           <!-- Main modal -->
     <div id="criarCard" tabindex="-1" aria-hidden="true" class="hidden text-left overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
@@ -148,14 +157,16 @@
                     </div>
                     <label for="descricao" class="block mb-2 text-sm font-medium text-gray-900 :text-gray-300">Descrição</label>
                     <div class="mb-4 w-full  rounded-lg border border-gray-200 :bg-gray-700 :border-gray-600">                        
-                        <div class="py-2 px-4 bg-white rounded-t-lg :bg-gray-800">                            
+                        <div class="py-2 px-4 bg-white rounded-t-lg :bg-gray-800">                                                        
                             <textarea id="descricao" name="descricao" rows="4" class="px-0 w-full text-sm text-gray-900 bg-white border-0 :bg-gray-800 focus:ring-0 :text-white :placeholder-gray-400" placeholder="Descreva aqui..." required></textarea>
                         </div>                        
                     </div>
                     
-                    
+                    <div class="mb-4 w-full  rounded-lg">                        
+                        <label for="midia" class="block mb-2 text-sm font-medium text-gray-900 :text-gray-300">Imagem do card</label>
+                        <input id="midia" name="midia" class="block mb-5 w-full text-xs text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none" id="small_size" type="file">                        
+                    </div>
                     <button type="submit" class="w-full text-white bg-orange-600 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Criar card</button>
-                    
                 </form>
             </div>
         </div>
