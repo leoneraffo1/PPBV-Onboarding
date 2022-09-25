@@ -29,6 +29,7 @@ class HomeController extends Controller{
     public function store(Request $request){
         //Upload de imagem
         
+        $midiaName="boa";
         
         if($request->hasFile('midia')){
             $midiaName = time().'.'.$request->midia->extension();

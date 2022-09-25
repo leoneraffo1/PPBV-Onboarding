@@ -55,15 +55,11 @@
                     <p class="font-bold text-xl mb-2">{{$cards->titulo}}</p> 
                 </button> --}}
 
-                <button class="max-w-sm inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg px-6 py-4" type="button" data-modal-toggle={{$cards -> id_card}}>
-                    <div class="max-w-sm">
-                        <a href="#" class="max-w-full">
-                            <img class="object-fill rounded-lg " src="images/cards/{{$cards->midia}}" alt="imagemCard" />
-                        </a>
-                        <div class="p-5">
-                            <a href="#">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>
-                            </a>                            
+                <button class="max-w-sm max-h-48 inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg" type="button" data-modal-toggle={{$cards -> id_card}}>
+                    <div class="contents grid justify-items-end">
+                        <img class="bg-contain max-w-4 object-cover max-h-xs" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
+                        <div class="p-5">                    
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>                            
                         </div>
                     </div>
                 </button>
