@@ -10,7 +10,7 @@
     
     <title>Home</title>
 </head>
-<body class="bg-orange-300">
+<body class="bg-orange-300 min-h-screen">
     <header>
         <nav class="bg-orange-600 border-gray-200 px-4 lg:px-6 py-2.5  :bg-gray-800">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
@@ -32,7 +32,7 @@
                             <a href="#" data-modal-toggle="criarCard" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0  :text-white" aria-current="page">Criar Card</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  :text-gray-400 lg: :hover:text-white  :hover:bg-gray-700  :hover:text-white lg: :hover:bg-transparent  :border-gray-700">Editar Layout</a>
+                            <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  :text-gray-400 lg: :hover:text-white  :hover:bg-gray-700  :hover:text-white lg: :hover:bg-transparent  :border-gray-700">Usuários</a>
                         </li>
                         <li>
                             <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  :text-gray-400 lg: :hover:text-white  :hover:bg-gray-700  :hover:text-white lg: :hover:bg-transparent  :border-gray-700">Reportar erro</a>
@@ -56,10 +56,12 @@
                 </button> --}}
 
                 <button class="max-w-sm max-h-48 inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg" type="button" data-modal-toggle={{$cards -> id_card}}>
+                    <img class="max-h-32 w-auto mx-auto" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
                     <div class="contents grid justify-items-end">
-                        <img class="bg-contain max-w-4 object-cover max-h-xs" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
-                        <div class="p-5">                    
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>                            
+                        <div class="flex justify-center">
+                            <div>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>
+                            <div>    
                         </div>
                     </div>
                 </button>
@@ -80,8 +82,9 @@
                         @csrf
                         @method('PUT')
                         <div class="flex justify-between items-start p-4 rounded-t border-b :border-gray-600">
-                            <div>
+                            <div class="grid grid-cols-2">
                                 <input type="text" id="titulo" name="titulo" value="{{$cards -> titulo}}" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500">
+                                <label for="titulo" class="p-2 w-full text-gray-900 sm:text-xs focus:ring-blue-500 focus:border-blue-500">- Título do card </label>
                             </div>
                             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center :hover:bg-gray-600 :hover:text-white" data-modal-toggle={{$cards -> id_card}}>
                                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
@@ -90,27 +93,47 @@
                     
                       <!-- Modal body -->
                       <div class="p-6 space-y-6">
-                        
-                            
-                            <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 :bg-gray-700 :border-gray-600">
-                                <div class="flex justify-between items-center py-2 px-3 border-b :border-gray-600">
-                                    <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x :divide-gray-600">
-                                        <div class="flex items-center space-x-1 sm:pr-4">
-                                            <input type="file" class="block w-full text-sm text-slate-500
-                                            file:mr-4 file:py-2 file:px-4
-                                            file:rounded-full file:border-0
-                                            file:text-sm file:font-semibold
-                                            file:bg-violet-50 file:text-violet-700
-                                            hover:file:bg-violet-100
-                                          "/>
-                                        </label>
+                            <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200">
+                                {{-- sAttachment bar  --}}
+                                <div class="grid grid-cols-2 justify-items-center justify-between p-3 border-b">
+                                        <div class="space-x-1 sm:pr-4">
+                                            <button type="button" id="dropdownImg" data-dropdown-toggle="ddImg{{$cards-> id_card}}" class="flex text-center inline-flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                                </svg>                                              
+                                            </button>
+                                            <div id="ddImg{{$cards->id_card}}" class="hidden w-auto bg-white rounded divide-y divide-gray-100">
+                                                <div class="flex justify-center items-center w-full">
+                                                    <label for="dzImg" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                        <div class="flex flex-col justify-center items-center pt-5 pb-6">
+                                                            <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                        </div>
+                                                        <input id="dzImg" name="dzImg" type="file" class="hidden" />
+                                                    </label>
+                                                </div> 
+                                            </div> 
                                         </div>
-                                    </div>
-                                    
-                                    <div id="tooltip-fullscreen" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip :bg-gray-700">
-                                        Show full screen
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
+                                        <div class="grid grid-cols-2 justify-items-between space-x-1 sm:pr-4">
+                                            <button type="button" id="dropdownAtt" data-dropdown-toggle="ddAtt{{$cards-> id_card}}" class="flex text-center inline-flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-auto h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                                                </svg>                                            
+                                            </button>
+                                            <div id="ddAtt{{$cards-> id_card}}" class="hidden bg-white rounded divide-y divide-gray-100">
+                                                <div class="flex justify-center items-center w-full">
+                                                    <label for="dzAtt" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                        <div class="flex flex-col justify-center items-center pt-5 pb-6">
+                                                            <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                            <p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
+                                                        </div>
+                                                        <input id="dzAtt" name="dzAtt" type="file" class="hidden" />
+                                                    </label>
+                                                </div> 
+                                            </div> 
+                                        </div>                                    
                                 </div>
                                 <div class="py-2 px-4 bg-white rounded-b-lg :bg-gray-800">
                                     <label for="editor" class="sr-only">Publish post</label>
@@ -121,10 +144,13 @@
                         
                       </div>
                       <!-- Modal footer -->
-                      <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 :border-gray-600">
-                          <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Confirmar</button>
-                          <button data-modal-toggle={{$cards -> id_card}} type="button" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 :bg-gray-700 :text-gray-300 :border-gray-500 :hover:text-white :hover:bg-gray-600 :focus:ring-gray-600">Cancelar   </button>
+                      <div class="flex items-center justify-evenly p-6 space-x-2 rounded-b border-t border-gray-200 :border-gray-600">
+                            <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Confirmar</button>
+                            <button data-modal-toggle={{$cards -> id_card}} type="button" class="text-orange-500 hover:bg-gray-200 border border-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancelar</button>
+                            @method('delete')
+                            <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Deletar</button>
                       </div>
+                      
                     </form>
                     
                   </div>
@@ -170,7 +196,8 @@
 </div> 
     </div>
 
-    <footer class="p-4 bg-orange-300 rounded-lg  mt-32 md:flex md:items-center md:justify-between md:p-6 :bg-gray-800">
+
+    <footer class="p-4 bg-orange-300 rounded-lg  mt-32  md:flex md:items-center md:justify-between md:p-6 :bg-gray-800">
         <span class="text-sm text-gray-500 sm:text-center :text-gray-400">© 2022 <a href="https://unifil.br" class="hover:underline">UniFil</a>. Todos os direitos reservados.
         </span>
         <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 :text-gray-400 sm:mt-0">

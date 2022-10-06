@@ -16,14 +16,9 @@ class HomeController extends Controller{
         $this->objCard = new ModelCard();
     }
     //a ser implementado
-    public function delete(Request $request,$id){
-        ModelCard::delete([
-             'titulo' => $request->titulo,
-             'descricao' => $request->descricao
-             
-         ]);
- 
-         return redirect()->action([HomeController::class, 'index']); 
+    public function delete($id){
+        $this->objCard->destroy($id); 
+        return redirect()->action([HomeController::class, 'index']); 
     }
 
     public function store(Request $request){
@@ -49,19 +44,39 @@ class HomeController extends Controller{
 
     public function update(Request $request, $id){
         // dd($request);
+        $card = ModelCard::where('id_card',$id)->first();
         
+
+
         $request->validate([
             'titulo' => 'required',
             'descricao' => 'required',
             // 'anexo' => 'required|csv,txt,xlx,xls,pdf|max:2048'
         ]);
 
+        if($request->hasFile('dzImg')){
+            $imgName = time().'.'.$request->dzImg->extension();
+            $path = $request->dzImg->move(public_path('images/cards'), $imgName);
+            $request->midia = $imgName;
+            $card->midia = $request->midia;
+            $card->save();
+
+
+        }
+
+        if($request->hasFile("dzAtt{{$card->id_card}}")){
+            $attName = time().'.'.$request->dzAtt->extension();
+            $path = $request->dzAtt->move(public_path('attachments/cards'), $attName);
+            $request->anexo = $attName;
+            $card->anexo = $request->anexo;    
+            $card->save();
+        }
+
         // if($request->hasFile('local_arquivo')){
         //     $file = $request->local_arquivo;
         //     $doc->arquivo_title = $file->getClientOriginalName();
         //     $doc->local_arquivo = $file->store('DocumentosEstagio');
         // }
-        $card = ModelCard::where('id_card',$id)->first();
         $card->titulo = $request->titulo;
         $card->descricao = $request->descricao; 
         $card->save();
