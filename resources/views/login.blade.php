@@ -7,38 +7,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body class="bg-orange-400 text-center text-white">
-    
-    <div class="grid grid-cols-1  lg:grid-cols-2">
-        <div class="bg-orange-300 lg:min-h-screen lg:flex lg:items-center p-8 sm:p-12">
-            <div class="flex-grow">
-                <h1 class="text-white text-center text-2xl sm:text-5xl mb-2">
-                    Primeiros passos
-                </h1>
-                
-            </div>
-        </div>
-        <div class="lg:min-h-screen lg:flex lg:items-center p-12 lg:p-24 xl:p-48">
-            <div class="flex-grow bg-white shadow-xl rounded-md border border-grey-300 p-8">
-                <div class="text-left">
-                    <p class="text-xl  text-gray-800">Usuário</p>
-                    <p class="text-base  text-gray-600">Coordenador</p>
-                    <div class="mt-4">
-                        <button type="button" class="text-xs text-red-500 hover:text-white hover:bg-red-500 border border-red-500 font-semibold rounded-md px-3 py-1">
-                            não é um coordenador?
-                        </button>
-                    </div>
+<body class="text-center text-white">
+    <section class="bg-orange-600 :bg-gray-900">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <img src="http://portal.filadelfia.br:7778/TemplatePortais/assets/images/logos/UNIFIL_GRADUACAO.png" class="mx-3 h-14 sm:h-24" alt="Unifil Logo" />    
+            <div class="w-full bg-orange-400 rounded-lg shadow :border md:mt-0 sm:max-w-md xl:p-0 :bg-gray-800 :border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl :text-white">
+                        Onboarding UniFil
+                    </h1>
+                    <form class="space-y-4 md:space-y-6" method="POST" action="{{route('auth')}}">
+                        @csrf
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-white :text-white">Usuário</label>
+                            <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500" placeholder="E-mail" required="">
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-white :text-white">Senha</label>
+                            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-blue-500 :focus:border-blue-500" required="">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                  <input id="aluno" name="aluno" aria-describedby="aluno" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 :bg-gray-700 :border-gray-600 :focus:ring-primary-600 :ring-offset-gray-800">
+                                </div>
+                                <div class="ml-3 text-sm">
+                                  <label for="aluno" class="text-white :text-gray-300">Sou aluno</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full text-white bg-orange-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-primary-600 :hover:bg-primary-700 :focus:ring-primary-800">Login</button>
+                    </form>
                 </div>
-                <form class="flex w-full mt-8">
-                    <input type="password" class="flex-1 w-full text-gray-700 bg-gray-200 rounded-md hover:bg-white border border-gray-200 outline-none focus:bg-white mr-3  ">
-                    <a href="/home">
-                        <button class="text-lg text-orange-400 hover:text-white hover:bg-orange-400 border border-orange-400 font-semibold rounded-md px-3 py-1" placeholder="senha">Login</button>
-                    </a>
-                </form>
             </div>
-            
         </div>
-    </div>
+    </section>    
+    
     
 </body>
 </html>

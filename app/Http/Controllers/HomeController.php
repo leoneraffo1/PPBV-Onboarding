@@ -16,6 +16,7 @@ class HomeController extends Controller{
         $this->objCard = new ModelCard();
     }
     //a ser implementado
+
     public function delete($id){
         $this->objCard->destroy($id); 
         return redirect()->action([HomeController::class, 'index']); 
@@ -45,7 +46,10 @@ class HomeController extends Controller{
     public function update(Request $request, $id){
         // dd($request);
         $card = ModelCard::where('id_card',$id)->first();
-        
+        if($request->has('delete')){
+            $this->objCard->destroy($id); 
+            return redirect()->action([HomeController::class, 'index']);
+        }
 
 
         $request->validate([

@@ -55,9 +55,9 @@
                     <p class="font-bold text-xl mb-2">{{$cards->titulo}}</p> 
                 </button> --}}
 
-                <button class="max-w-sm max-h-48 inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg" type="button" data-modal-toggle={{$cards -> id_card}}>
-                    <img class="max-h-32 w-auto mx-auto" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
+                <button class="max-w-sm max-h-48 min-h-48 inline rounded m-12 text-center hover:text-white bg-white hover:bg-orange-600 overflow-hidden shadow-lg" type="button" data-modal-toggle={{$cards -> id_card}}>
                     <div class="contents grid justify-items-end">
+                    <img class="max-h-32 w-auto mx-auto" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
                         <div class="flex justify-center">
                             <div>
                                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{$cards->titulo}}</h5>
@@ -75,7 +75,6 @@
                   <div class="relative bg-white rounded-lg shadow :bg-gray-700">
                       <!-- Modal header -->
                     <form 
-                    {{-- action="{{ route('image.upload.post') }}"  --}}
                     enctype="multipart/form-data"
                     action="/home/{{$cards->id_card}}" 
                     method="POST">
@@ -147,11 +146,10 @@
                       <div class="flex items-center justify-evenly p-6 space-x-2 rounded-b border-t border-gray-200 :border-gray-600">
                             <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Confirmar</button>
                             <button data-modal-toggle={{$cards -> id_card}} type="button" class="text-orange-500 hover:bg-gray-200 border border-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancelar</button>
-                            @method('delete')
-                            <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Deletar</button>
+                            <button data-modal-toggle={{$cards -> id_card}} type="submit" name="delete" value="delete" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Deletar</button>                            
                       </div>
+                    </form>            
                       
-                    </form>
                     
                   </div>
               </div>
@@ -197,7 +195,7 @@
     </div>
 
 
-    <footer class="p-4 bg-orange-300 rounded-lg  mt-32  md:flex md:items-center md:justify-between md:p-6 :bg-gray-800">
+    {{-- <footer class="p-4 bg-orange-300 rounded-lg mt-32 md:flex md:items-center md:justify-between md:p-6 :bg-gray-800">
         <span class="text-sm text-gray-500 sm:text-center :text-gray-400">© 2022 <a href="https://unifil.br" class="hover:underline">UniFil</a>. Todos os direitos reservados.
         </span>
         <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 :text-gray-400 sm:mt-0">
@@ -208,7 +206,20 @@
         <a href="https://unifil.br/fale-conosco/" class="hover:underline">Contatos</a>
         </li>
         </ul>
-        </footer>
+    </footer> --}}
+    
+<footer class="fixed bottom-0 left-0 z-20 p-4 w-full bg-orange-600 shadow md:flex md:items-center md:justify-between md:p-4">
+    <span class="text-sm text-white sm:text-center :text-gray-400">© 2022 <a href="https://unifil.br" class="hover:underline">UniFil</a>. Todos os direitos reservados.</span>
+    <ul class="flex flex-wrap items-center mt-2 text-sm text-white sm:mt-0">
+        <li>
+            <a href="https://unifil.br/conheca-unifil/" class="mr-4 hover:underline md:mr-6 ">Sobre</a>
+        </li>
+        <li>
+            <a href="https://unifil.br/fale-conosco/" class="hover:underline">Contatos</a>
+        </li>
+    </ul>
+</footer>
+
       
     
 </body>

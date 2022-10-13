@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -21,6 +22,5 @@ Route::delete('/home/{id}', [HomeController::class, 'delete']);
 
 // Route::get('/home', ['uses' => 'ppbvController@index']);
 
-Route::get('/login', function () {
-    return view('login');
-});
+Route::get('/', [UserController::class, 'index']);
+Route::post('/login',[UserController::class, 'auth']);
