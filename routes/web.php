@@ -23,4 +23,4 @@ Route::delete('/home/{id}', [HomeController::class, 'delete']);
 // Route::get('/home', ['uses' => 'ppbvController@index']);
 
 Route::get('/', [UserController::class, 'index']);
-Route::post('/login',[UserController::class, 'auth']);
+Route::post('/login',[UserController::class, 'auth'])->name('login');
