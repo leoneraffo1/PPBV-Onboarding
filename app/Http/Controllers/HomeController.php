@@ -1,101 +1,100 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCardRequest;
+use App\Http\Requests\UpdateCardRequest;
 use App\Models\Models\ModelCard;
 
-
-class HomeController extends Controller{
-    //variaveis
-    
+class HomeController extends Controller
+{
     private $objCard;
-    //functions
-    public function __construct(){
-        
+
+    public function __construct()
+    {
         $this->objCard = new ModelCard();
     }
-    //a ser implementado
 
-    public function delete($id){
+    public function delete($id)
+    {
         $this->objCard->destroy($id); 
         return redirect()->action([HomeController::class, 'index']); 
     }
 
-    public function store(Request $request){
-        //Upload de imagem
+    public function destroy($id_card)
+    {
+        $card = Card::findOrFail($id_card);
+        $card->delete();
+
+        return redirect()->route('home')->with('success', 'Card deletado com sucesso.');
+    }
+
+    public function store(StoreCardRequest $request)
+    {
+        $midiaName = "boa";
         
-        $midiaName="boa";
-        
-        if($request->hasFile('midia')){
-            $midiaName = time().'.'.$request->midia->extension();
-            $path = $request->midia->move(public_path('images/cards'), $midiaName);
+        if ($request->hasFile('midia')) {
+            $midiaName = time() . '.' . $request->midia->extension();
+            $request->midia->move(public_path('images/cards'), $midiaName);
         }
         
-        
-        ModelCard::create([
+        $this->objCard->create([
             'titulo' => $request->titulo,
             'descricao' => $request->descricao,
-            'midia' => $midiaName
-            
+            'midia' => $midiaName,
         ]);
 
-        return redirect()->action([HomeController::class, 'index']); 
+        return redirect()->action([HomeController::class, 'index']);
     }
 
-    public function update(Request $request, $id){
-        // dd($request);
-        $card = ModelCard::where('id_card',$id)->first();
-        if($request->has('delete')){
-            $this->objCard->destroy($id); 
-            return redirect()->action([HomeController::class, 'index']);
-        }
+    public function update(UpdateCardRequest $request, $id)
+{
+    $card = $this->objCard->find($id);
+
+    if ($request->has('delete')) {
+        $this->objCard->destroy($id); 
+        return redirect()->action([HomeController::class, 'index']);
+    }
+
+    // Verifica se o arquivo de imagem foi enviado e faz o upload
+    if ($request->hasFile('dzImg')) {
+        $imgName = time() . '.' . $request->file('dzImg')->extension();
+        $request->file('dzImg')->move(public_path('images/cards'), $imgName);
+        $card->midia = $imgName;
+    }
+
+    // Verifica se o arquivo anexo foi enviado e faz o upload
+    if ($request->hasFile('dzAtt')) {
+        $attName = time() . '.' . $request->file('dzAtt')->extension();
+        $request->file('dzAtt')->move(public_path('attachments/cards'), $attName);
+        $card->anexo = $attName;
+    }
+
+    $card->titulo = $request->titulo;
+    $card->descricao = $request->descricao; 
+    $card->save();
+
+    return redirect()->action([HomeController::class, 'index']);  
+}
 
 
-        $request->validate([
-            'titulo' => 'required',
-            'descricao' => 'required',
-            // 'anexo' => 'required|csv,txt,xlx,xls,pdf|max:2048'
-        ]);
+    public function updateOrder(Request $request)
+{
+    $order = json_decode($request->input('order'), true);
 
-        if($request->hasFile('dzImg')){
-            $imgName = time().'.'.$request->dzImg->extension();
-            $path = $request->dzImg->move(public_path('images/cards'), $imgName);
-            $request->midia = $imgName;
-            $card->midia = $request->midia;
-            $card->save();
-
-
-        }
-
-        if($request->hasFile("dzAtt{{$card->id_card}}")){
-            $attName = time().'.'.$request->dzAtt->extension();
-            $path = $request->dzAtt->move(public_path('attachments/cards'), $attName);
-            $request->anexo = $attName;
-            $card->anexo = $request->anexo;    
-            $card->save();
-        }
-
-        // if($request->hasFile('local_arquivo')){
-        //     $file = $request->local_arquivo;
-        //     $doc->arquivo_title = $file->getClientOriginalName();
-        //     $doc->local_arquivo = $file->store('DocumentosEstagio');
-        // }
-        $card->titulo = $request->titulo;
-        $card->descricao = $request->descricao; 
+    foreach ($order as $index => $id) {
+        $card = ModelCard::find($id);
+        $card->order = $index + 1; // Atribui a nova ordem
         $card->save();
-        return redirect()->action([HomeController::class, 'index']);  
-
     }
+    return redirect()->action([HomeController::class, 'index']);
+}
 
-    // public function deleteCard(Request $request){
-    //     ModelCard::delete;
-    // }
 
-    public function index(){
-        $card = $this->objCard->all();
-        $image = '/storage/app/public';
-        return view('home',compact('card'));
-        // dd($this->objCard->all());
-    }
+public function index()
+{
+    $card = ModelCard::orderBy('order', 'asc')->get();
+    return view('home', compact('card'));
+}
+
 }

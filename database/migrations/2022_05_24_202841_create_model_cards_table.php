@@ -13,7 +13,7 @@ class CreateModelCardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('model_cards', function (Blueprint $table) {
+        Schema::create('card', function (Blueprint $table) {
             $table->id('id_card');
             $table->char('titulo', 30);
             $table->text('descricao');

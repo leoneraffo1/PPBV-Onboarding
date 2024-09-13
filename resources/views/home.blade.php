@@ -7,10 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.5/dist/flowbite.min.css" />
     <script src="https://unpkg.com/flowbite@1.4.5/dist/flowbite.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <title>Home</title>
 </head>
-<body class="bg-orange-300 min-h-screen">
+<body class="bg-orange-300 min-h-screen">    
     <header>
         <nav class="bg-orange-600 border-gray-200 px-4 lg:px-6 py-2.5  :bg-gray-800">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
@@ -36,6 +39,9 @@
                         </li>
                         <li>
                             <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  :text-gray-400 lg: :hover:text-white  :hover:bg-gray-700  :hover:text-white lg: :hover:bg-transparent  :border-gray-700">Reportar erro</a>
+                        </li> 
+                        <li>
+                            <button id="openModalBtn" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0  :text-gray-400 lg: :hover:text-white  :hover:bg-gray-700  :hover:text-white lg: :hover:bg-transparent  :border-gray-700">Organizar Cards</button>
                         </li>                        
                     </ul>
                 </div>
@@ -69,7 +75,7 @@
         
           
           <!-- first modal -->
-          <div id={{$cards->id_card}} tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+          <div id="{{$cards->id_card}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
               <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                   <!-- Modal content -->
                   <div class="relative bg-white rounded-lg shadow :bg-gray-700">
@@ -112,7 +118,18 @@
                                                         <input id="dzImg" name="dzImg" type="file" class="hidden" />
                                                     </label>
                                                 </div> 
-                                            </div> 
+                                            </div>
+                                            @if($cards->anexo)
+                                                <div class="mt-4 justify-center">
+                                                    <a href="{{ asset('attachments/cards/' . $cards->anexo) }}" target="_blank"
+                                                    class="text-blue-500 hover:text-blue-700 font-semibold flex items-center">
+                                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                        </svg>
+                                                        Baixar Anexo
+                                                    </a>
+                                                </div>
+                                            @endif 
                                         </div>
                                         <div class="grid grid-cols-2 justify-items-between space-x-1 sm:pr-4">
                                             <button type="button" id="dropdownAtt" data-dropdown-toggle="ddAtt{{$cards-> id_card}}" class="flex text-center inline-flex items-center">
@@ -144,9 +161,9 @@
                       </div>
                       <!-- Modal footer -->
                       <div class="flex items-center justify-evenly p-6 space-x-2 rounded-b border-t border-gray-200 :border-gray-600">
-                            <button data-modal-toggle={{$cards -> id_card}} type="submit" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Confirmar</button>
-                            <button data-modal-toggle={{$cards -> id_card}} type="button" class="text-orange-500 hover:bg-gray-200 border border-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancelar</button>
-                            <button data-modal-toggle={{$cards -> id_card}} type="submit" name="delete" value="delete" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Deletar</button>                            
+                            <button data-modal-toggle="{{$cards -> id_card}}" type="submit" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Confirmar</button>
+                            <button data-modal-toggle="{{$cards -> id_card}}" type="button" class="text-orange-500 hover:bg-gray-200 border border-orange-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancelar</button>
+                            <button data-modal-toggle="{{$cards -> id_card}}" type="submit" name="delete" value="delete" class="text-red-500 hover:text-white hover:bg-red-500 border border-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Deletar</button>                            
                       </div>
                     </form>            
                       
@@ -157,6 +174,7 @@
         @endforeach
         
     </div>
+    
     <div class="text-right mr-8">
           {{-- modal criarCard --}}
           <!-- Main modal -->
@@ -193,20 +211,49 @@
     </div>
 </div> 
     </div>
+    <!-- modalOrganizarCards -->
+    <div id="cardsModal" tabindex="-1" aria-hidden="true" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="relative p-4 w-full max-w-4xl h-full md:h-auto">
+        <div class="relative bg-white rounded-lg shadow :bg-gray-700">
+            <div class="flex justify-between items-start p-4 rounded-t border-b :border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 :text-white">
+                    Organizar Cards
+                </h3>
+                <button type="button" id="closeModalBtn" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center :hover:bg-gray-600 :hover:text-white">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>  
+                </button>
+            </div>
+
+            <!-- Formulário para enviar a ordem dos cards -->
+            <form id="saveOrderForm" method="POST" action="{{ route('cards.order') }}">
+                @csrf
+                <input type="hidden" name="order" id="orderInput">
+
+                <div class="p-6 space-y-6">
+                    <ul id="cardsList" class="list-none grid grid-cols-3 gap-4">
+                        @foreach($card as $cards)
+                            <li class="ui-state-default bg-white rounded-lg shadow p-4 cursor-pointer" data-id="{{$cards->id_card}}">
+                                <div class="text-center">
+                                    <img class="h-24 w-auto mx-auto" src="images/cards/{{$cards->midia}}" alt="imagemCard" />
+                                    <h5 class="mt-2 text-xl font-semibold">{{$cards->titulo}}</h5>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray-200 :border-gray-600">
+                    <button type="submit" id="saveOrderBtn" class="text-white bg-orange-400 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Salvar Ordem</button>
+                    <button type="button" id="cancelModalBtn" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
-    {{-- <footer class="p-4 bg-orange-300 rounded-lg mt-32 md:flex md:items-center md:justify-between md:p-6 :bg-gray-800">
-        <span class="text-sm text-gray-500 sm:text-center :text-gray-400">© 2022 <a href="https://unifil.br" class="hover:underline">UniFil</a>. Todos os direitos reservados.
-        </span>
-        <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 :text-gray-400 sm:mt-0">
-        <li>
-        <a href="https://unifil.br/conheca-unifil/" class="mr-4 hover:underline md:mr-6 ">Sobre</a>
-        </li>
-        <li>
-        <a href="https://unifil.br/fale-conosco/" class="hover:underline">Contatos</a>
-        </li>
-        </ul>
-    </footer> --}}
     
 <footer class="fixed bottom-0 left-0 z-20 p-4 w-full bg-orange-600 shadow md:flex md:items-center md:justify-between md:p-4">
     <span class="text-sm text-white sm:text-center :text-gray-400">© 2022 <a href="https://unifil.br" class="hover:underline">UniFil</a>. Todos os direitos reservados.</span>
@@ -223,4 +270,56 @@
       
     
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const cardsModal = document.getElementById('cardsModal');
+    const saveOrderForm = document.getElementById('saveOrderForm');
+    const orderInput = document.getElementById('orderInput');
+
+    if (openModalBtn) {
+        openModalBtn.addEventListener('click', () => {
+            cardsModal.classList.remove('hidden');
+            loadCards();
+        });
+    }
+
+    closeModalBtn.addEventListener('click', () => {
+        cardsModal.classList.add('hidden');
+    });
+
+    cancelModalBtn.addEventListener('click', () => {
+        cardsModal.classList.add('hidden');
+    });
+
+    saveOrderForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Evita o envio imediato
+
+        const order = Array.from(document.querySelectorAll('#cardsList li'))
+            .map(item => item.getAttribute('data-id'));
+
+        // Define a ordem no campo hidden do formulário
+        orderInput.value = JSON.stringify(order);
+
+        // Envia o formulário
+        saveOrderForm.submit();
+    });
+
+    function initializeSortable() {
+        new Sortable(document.getElementById('cardsList'), {
+            onEnd: function(evt) {
+                // A ordem é atualizada a cada movimento, mas será capturada ao enviar o formulário
+                console.log('Order changed');
+            }
+        });
+    }
+
+    function loadCards() {
+        // Se os cards já estão carregados via PHP, esta função pode não ser necessária
+        initializeSortable();
+    }
+});
+</script>
 </html>

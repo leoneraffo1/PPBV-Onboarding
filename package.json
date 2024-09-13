@@ -10,12 +10,13 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "axios": "^0.21",
-        "laravel-mix": "^6.0.6",
+        "axios": "^1.7.3",
+        "laravel-mix": "^6.0.3",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "flowbite": "^1.4.5"
+        "flowbite": "^1.4.5",
+        "sortablejs": "^1.15.2"
     }
 }
