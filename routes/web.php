@@ -15,14 +15,8 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home', [HomeController::class, 'index']);
-Route::post('/home', [HomeController::class, 'store']);
-Route::put('/home/{id}', [HomeController::class, 'update']);
-Route::delete('/home/{id}', [HomeController::class, 'delete']);
-Route::post('/home/order', [HomeController::class, 'updateOrder'])->name('cards.order');
-Route::resource('cards', CardController::class);
+
 
 // Route::get('/home', ['uses' => 'ppbvController@index']);
 
 Route::get('/', [UserController::class, 'index']);
-Route::post('/login',[UserController::class, 'auth'])->name('login');

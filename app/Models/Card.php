@@ -1,14 +1,27 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Card extends Model
 {
-    public $timestamps = false;
-    protected $table = 'card';
-    protected $fillable = ['titulo','descricao','anexo','midia'];
-    protected $primaryKey = 'id_card';
+    use HasFactory;
+
+    use SoftDeletes;
+
+    protected $fillable = [
+        "title",
+        "description",
+        "image",
+        "order",
+        "course_fk",
+    ];
+
+    public function course()
+    {
+        $this->belongsTo(Course::class, "course_fk");
+    }
 }

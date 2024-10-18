@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,15 +17,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-// Route::post('/auth',[UserController::class, 'auth']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
+
+    Route::get('/course', [CourseController::class, 'index']);
+    Route::post('/course', [CourseController::class, 'store']);
+    Route::put('/course/{course}', [CourseController::class, 'update']);
+    Route::delete('/course/{course}', [CourseController::class, 'destroy']);
+    Route::delete('/course/{course}/vinculate-user', [CourseController::class, 'vinculateUser']);
+
+ 
+    Route::get('/card', [CardController::class, 'index']);
+    Route::post('/card', [CardController::class, 'store']);
+    Route::put('/card/{card}', [CardController::class, 'update']);
+    Route::delete('/card/{card}', [CardController::class, 'destroy']);
+
+
 });
