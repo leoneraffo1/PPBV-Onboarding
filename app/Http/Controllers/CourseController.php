@@ -91,4 +91,10 @@ class CourseController extends Controller
 
         return response()->json(["message" => "Usuário vinculado ao curso com sucesso"], 200);
     }
+
+    public function showCourseUsers(Request $request, Course $course)
+    {
+        $course->load(["users:id,name,email,type_user_fk"]);
+        return response()->json($course);
+    }
 }

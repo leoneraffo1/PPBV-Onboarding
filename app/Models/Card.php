@@ -24,4 +24,9 @@ class Card extends Model
     {
         $this->belongsTo(Course::class, "course_fk");
     }
+
+    public function archive()
+    {
+        return $this->belongsToMany(Archive::class, 'archive_has_cards', 'card_fk', 'archive_fk');
+    }
 }

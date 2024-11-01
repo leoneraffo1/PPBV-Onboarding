@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypeUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'type_user_fk' => 'required|int',
         ]);
 
         if ($validator->fails()) {
@@ -28,6 +30,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'type_user_fk' =>  $request->type_user_fk,
         ]);
 
         // Geração do token para o usuário registrado
@@ -60,10 +63,12 @@ class AuthController extends Controller
         // Geração do token para o usuário autenticado
         $user = Auth::user();
         $token = $user->createToken('LaravelPassportToken')->accessToken;
+        $type = TypeUser::where("id", $user->type_user_fk)->first();
 
+        $user["type_user"] = $type;
         return response()->json([
             'message' => 'Login realizado com sucesso!',
-            'user' => $user::with(["typeUser:name"])->get(),
+            'user' => $user,
             'token' => $token,
         ], 200);
     }

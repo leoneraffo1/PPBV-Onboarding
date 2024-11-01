@@ -14,7 +14,7 @@ class CardController extends Controller
      */
     public function index(Request $request)
     {
-        $card = Card::where("course_fk", $request->course)->get();
+        $card = Card::where("course_fk", $request->course)->orderBy("order")->get();
 
         return response()->json($card);
     }
@@ -31,9 +31,12 @@ class CardController extends Controller
             "title" => 'required|string|max:191',
             "description" => 'required|string|max:255',
             "image" => 'required|string|max:191',
-            "order" => 'required|integer',
             "course_fk" => 'required|exists:courses,id',
         ]);
+        $lastOrder = Card::where('course_fk', $validated['course_fk'])->max('order');
+
+        $validated['order'] = $lastOrder ? $lastOrder + 1 : 1;
+
         $card = Card::create($validated);
 
         return response($card, 201);
@@ -47,6 +50,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
+        $card->load(['archive:id,path']);
         return response()->json($card);
     }
 
@@ -83,5 +87,13 @@ class CardController extends Controller
     {
         $card->delete();
         return response()->json("Card deletado com sucesso");
+    }
+
+    public function updateOrder(Request $request, Card $card)
+    {
+        $card->order =  $request->order;
+        $card->save();
+
+        return response()->json(["message" => "Card ajustado com sucesso"]);
     }
 }

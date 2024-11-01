@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CourseController;
@@ -29,13 +30,19 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/course', [CourseController::class, 'store']);
     Route::put('/course/{course}', [CourseController::class, 'update']);
     Route::delete('/course/{course}', [CourseController::class, 'destroy']);
-    Route::delete('/course/{course}/vinculate-user', [CourseController::class, 'vinculateUser']);
+    Route::put('/course/{course}/vinculate-user', [CourseController::class, 'vinculateUser']);
+    Route::get('/course/{course}/user', [CourseController::class, 'showCourseUsers']);
 
- 
+
     Route::get('/card', [CardController::class, 'index']);
     Route::post('/card', [CardController::class, 'store']);
     Route::put('/card/{card}', [CardController::class, 'update']);
+    Route::get('/card/{card}', [CardController::class, 'show']);
     Route::delete('/card/{card}', [CardController::class, 'destroy']);
+    Route::put('/card/{card}/order', [CardController::class, 'updateOrder']);
 
-
+    Route::post('/archive', [ArchiveController::class, 'store']);
+    Route::post('/archive/image', [ArchiveController::class, 'storeImage']);
 });
+Route::get('/archive/download', [ArchiveController::class, 'downloadArchive']);
+Route::get('/archive/image', [ArchiveController::class, 'getImage']);
