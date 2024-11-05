@@ -40,9 +40,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/card/{card}', [CardController::class, 'show']);
     Route::delete('/card/{card}', [CardController::class, 'destroy']);
     Route::put('/card/{card}/order', [CardController::class, 'updateOrder']);
+    Route::post('/card/{card}/view', [CardController::class, 'viewCard']);
 
     Route::post('/archive', [ArchiveController::class, 'store']);
     Route::post('/archive/image', [ArchiveController::class, 'storeImage']);
+
+
+    Route::delete('/user/{user}', [UserController::class, 'destroy']);
+    Route::get('/user', [UserController::class, 'index']);
 });
 Route::get('/archive/download', [ArchiveController::class, 'downloadArchive']);
 Route::get('/archive/image', [ArchiveController::class, 'getImage']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\CardViewUsers;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -95,5 +96,18 @@ class CardController extends Controller
         $card->save();
 
         return response()->json(["message" => "Card ajustado com sucesso"]);
+    }
+
+    public function viewCard(Request $request, Card $card)
+    {
+        $user = $request->user();
+        $cardView = CardViewUsers::where("user_fk", $user->id)->where("card_fk", $card->id)->first();
+        if ($cardView == null) {
+            $cardView = new CardViewUsers();
+            $cardView->card_fk = $card->id;
+            $cardView->user_fk = $user->id;
+            $cardView->save();
+        }
+        return response()->json(["message" => "Card visualizado com sucesso"]);
     }
 }
