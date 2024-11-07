@@ -86,6 +86,7 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
+        CardViewUsers::where("card_fk", $card->id)->delete();
         $card->delete();
         return response()->json("Card deletado com sucesso");
     }
