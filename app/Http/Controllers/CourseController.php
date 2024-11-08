@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseHasUsers;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -87,6 +88,14 @@ class CourseController extends Controller
     public function vinculateUser(Request $request, Course $course)
     {
         $user = $request->user;
+        $course->users()->attach($user);
+
+        return response()->json(["message" => "Usuário vinculado ao curso com sucesso"], 200);
+    }
+    public function vinculateUserAluno(Request $request, Course $course)
+    {
+        $user = $request->user;
+        CourseHasUsers::where('user_fk', $user)->delete();
         $course->users()->attach($user);
 
         return response()->json(["message" => "Usuário vinculado ao curso com sucesso"], 200);

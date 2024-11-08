@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,11 +50,28 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
     }
+    public function update(Request $request, User $user)
+    {
+        try {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->type_user_fk = $request->type_user_fk;
+            $user->save();
 
+            return response()->json(["message" => "Usuário alterado com sucesso"]);
+        } catch (Exception $ex) {
+            return response()->json(["message" => "Erro ao alterar usuário", "error" => $ex->getMessage()], 400);
+        }
+    }
     public function destroy(User $user)
     {
         $user->delete();
 
         return response()->json(["message" => "Usuário deletado com sucesso"]);
+    }
+    public function show(User $user)
+    {
+        return response()->json($user);
     }
 }

@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/course/{course}', [CourseController::class, 'update']);
     Route::delete('/course/{course}', [CourseController::class, 'destroy']);
     Route::put('/course/{course}/vinculate-user', [CourseController::class, 'vinculateUser']);
+    Route::put('/course/{course}/vinculate-user-student', [CourseController::class, 'vinculateUserAluno']);
     Route::get('/course/{course}/user', [CourseController::class, 'showCourseUsers']);
 
 
@@ -47,6 +48,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
     Route::delete('/user/{user}', [UserController::class, 'destroy']);
+    Route::put('/user/{user}', [UserController::class, 'update']);
+    Route::get('/user/{user}', [UserController::class, 'show']);
     Route::get('/user', [UserController::class, 'index']);
 });
 Route::get('/archive/download', [ArchiveController::class, 'downloadArchive']);
