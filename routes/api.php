@@ -4,6 +4,7 @@ use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/user/{user}', [UserController::class, 'update']);
     Route::get('/user/{user}', [UserController::class, 'show']);
     Route::get('/user', [UserController::class, 'index']);
+
+
+    Route::post('/report', [EmailController::class, 'sendEmail']);
 });
 Route::get('/archive/download', [ArchiveController::class, 'downloadArchive']);
 Route::get('/archive/image', [ArchiveController::class, 'getImage']);
