@@ -19,7 +19,7 @@ class UserController extends Controller
                 "users.*",
                 DB::raw("ROUND(
             (SELECT COUNT(1) FROM card_view_users WHERE user_fk = users.id) /
-            (SELECT COUNT(1) FROM cards WHERE course_fk = $request->course) * 100,2
+            (SELECT COUNT(1) FROM cards WHERE course_fk = $request->course and deleted_at is null) * 100,2
         ) AS view_percentage")
             )
             ->get();
