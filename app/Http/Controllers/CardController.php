@@ -69,7 +69,6 @@ class CardController extends Controller
             "title" => 'required|string|max:191',
             "description" => 'required|string|max:255',
             "image" => 'required|string|max:191',
-            "order" => 'required|integer',
             "course_fk" => 'required|exists:courses,id',
         ]);
 

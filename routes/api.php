@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/archive', [ArchiveController::class, 'store']);
     Route::post('/archive/image', [ArchiveController::class, 'storeImage']);
+    Route::delete('/archive/{archive}', [ArchiveController::class, 'destroy']);
 
 
     Route::delete('/user/{user}', [UserController::class, 'destroy']);

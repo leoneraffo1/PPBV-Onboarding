@@ -70,6 +70,7 @@ class UserController extends Controller
 
         return response()->json(["message" => "Usuário deletado com sucesso"]);
     }
+    
     public function show(User $user)
     {
         return response()->json($user);

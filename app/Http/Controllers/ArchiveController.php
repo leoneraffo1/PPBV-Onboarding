@@ -128,6 +128,8 @@ class ArchiveController extends Controller
      */
     public function destroy(Archive $archive)
     {
-        //
+        $archive->delete();
+
+        return response()->json(["Arquivo excluido com sucesso"], 204);
     }
 }
